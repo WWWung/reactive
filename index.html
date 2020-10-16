@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./utils.js"></script>
+    <script src="./reactive.js"></script>
+    <script src="./effect.js"></script>
+    <script>
+        var ob = reactive({foo:1})
+        var dummy
+        effect(() => {
+            // ob.push(3)
+            dummy = ob.foo
+            ob.foo = 2
+        })
+        effect(() => {
+            dummy = ob.foo
+            ob.foo = 1
+        })
+        //  error to fix: infinite update
+        console.log(dummy)
+        console.log(dummy)
+    </script>
+</body>
+</html>
