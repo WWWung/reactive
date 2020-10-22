@@ -12,17 +12,17 @@
     <script>
         var ob = reactive({foo:1})
         var dummy
-        effect(() => {
+        var fn1 = () => {
             // ob.push(3)
             dummy = ob.foo
             ob.foo = 2
-        })
-        effect(() => {
+        }
+        effect(fn1)
+        var fn2 = () => {
             dummy = ob.foo
-            ob.foo = 1
-        })
-        //  error to fix: infinite update
-        console.log(dummy)
+            ob.foo = 100
+        }
+        effect(fn2)
         console.log(dummy)
     </script>
 </body>

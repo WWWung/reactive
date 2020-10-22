@@ -1,4 +1,5 @@
 const targetMap = new Map()
+const effectStack = []
 let activeEffect = null
 
 /**
@@ -23,11 +24,16 @@ function track(target, property) {
  */
 function effect(fn) {
     const effectFn = function() {
-        try {
-            activeEffect = effectFn
-            return fn()
-        } finally {
-            activeEffect = null
+        if (!effectStack.includes(effectFn)) {
+            try {
+                activeEffect = effectFn
+                effectStack.push(effectFn)
+                return fn()
+            } finally {
+                activeEffect = null
+                effectStack.pop()
+                activeEffect = effectStack[effectStack.length - 1]
+            }
         }
     }
     effectFn()
