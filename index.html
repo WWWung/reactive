@@ -6,24 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-    <script src="./utils.js"></script>
-    <script src="./reactive.js"></script>
-    <script src="./effect.js"></script>
-    <script>
-        var ob = reactive({foo:1})
-        var dummy
-        var fn1 = () => {
-            // ob.push(3)
-            dummy = ob.foo
-            ob.foo = 2
-        }
-        effect(fn1)
-        var fn2 = () => {
-            dummy = ob.foo
-            ob.foo = 100
-        }
-        effect(fn2)
-        console.log(dummy)
+    <script type="module">
+        import { reactive, toRaw } from "./reactive.js"
+        import { effect } from "./effect.js"
+        const raw = {}
+        const arr = reactive([{}, {}])
+        arr.push(raw)
+       console.log(arr.indexOf(raw))
     </script>
 </body>
 </html>

@@ -1,0 +1,27 @@
+{
+  "name": "reactive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "reactive.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WWWung/reactive.git"
+  },
+  "author": "wwwung",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WWWung/reactive/issues"
+  },
+  "homepage": "https://github.com/WWWung/reactive#readme",
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "babel-jest": "^26.6.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "execa": "^4.1.0",
+    "jest": "^26.6.3"
+  }
+}
