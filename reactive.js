@@ -1,4 +1,5 @@
 import { track, trigger, enableTracking, pauseTracking } from "./effect.js";
+import { isRef } from "./ref.js";
 import { isIntegerKey, hasChanged, isObject } from "./utils.js";
 
 const reactiveMap = new Map();
@@ -68,6 +69,9 @@ export function reactive(obj) {
       }
       track(target, property);
       // isObject(value) && reactive(value)
+      if (isRef(value)) {
+        return value.value
+      }
       if (isObject(value)) {
         return reactive(value);
       }

@@ -9,10 +9,33 @@
     <script type="module">
         import { reactive, toRaw } from "./reactive.js"
         import { effect } from "./effect.js"
-        const raw = {}
-        const arr = reactive([{}, {}])
-        arr.push(raw)
-       console.log(arr.indexOf(raw))
+        import { ref } from "./ref.js"
+        const a = ref(1)
+        const obj = reactive({
+            a,
+            b: {
+                c: a
+            }
+        })
+
+        let dummy1
+        let dummy2
+
+        effect(() => {
+            dummy1 = obj.a
+            dummy2 = obj.b.c
+        })
+
+        const assertDummiesEqualTo = (val) =>
+        console.log([dummy1, dummy2].map(dummy => val === dummy))
+
+        assertDummiesEqualTo(1)
+        a.value++
+        assertDummiesEqualTo(2)
+        obj.a++
+        assertDummiesEqualTo(3)
+        obj.b.c++
+        assertDummiesEqualTo(4)
     </script>
 </body>
 </html>

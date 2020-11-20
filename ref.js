@@ -1,16 +1,17 @@
 import { track, trigger } from "./effect.js"
-import { toRaw } from "./reactive.js"
-import { hasChanged } from "./utils.js"
+import { reactive, toRaw } from "./reactive.js"
+import { hasChanged, isObject } from "./utils.js"
 
 class RefImpl {
     _value = null
     _v__ref = true
     constructor(value) {
         this._value = value
+        this.__v_raw = value
     }
     get value() {
         track(toRaw(this), "value")
-        return this._value
+        return isObject(this._value) ? reactive(this._value) : this._value
     }
 
     set value(newValue) {
@@ -26,5 +27,5 @@ export function ref(value) {
 }
 
 export function isRef(value) {
-    return !!value._v__ref
+    return value && value._v__ref
 }
