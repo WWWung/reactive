@@ -27,10 +27,16 @@ export function track(target, property) {
   }
 }
 
+/**
+ * 暂停收集依赖
+ */
 export function pauseTracking() {
   shouldTrack = false;
 }
 
+/**
+ * 开始收集依赖
+ */
 export function enableTracking() {
   shouldTrack = true;
 }

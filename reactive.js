@@ -69,7 +69,7 @@ export function reactive(obj) {
       }
       track(target, property);
       // isObject(value) && reactive(value)
-      if (isRef(value)) {
+      if (isRef(value) && !(Array.isArray(target) && isIntegerKey(property))) {
         return value.value
       }
       if (isObject(value)) {
@@ -85,14 +85,18 @@ export function reactive(obj) {
       if (isReactive(value)) {
         value = toRaw(value);
       }
-      const hasKey =
-        Array.isArray(target) && isIntegerKey(property)
-          ? Number(property) < target.length
-          : {}.hasOwnProperty.call(target, property);
       const oldValue = target[property];
+      if (isRef(oldValue)) {
+        oldValue.value = value
+        return true
+      }
       const result = Reflect.set(target, property, value, receiver);
       if (hasChanged(value, oldValue)) {
         if (target === toRaw(receiver)) {
+          const hasKey =
+            Array.isArray(target) && isIntegerKey(property)
+              ? Number(property) < target.length
+              : {}.hasOwnProperty.call(target, property);
           trigger(target, property, hasKey ? "set" : "add", value);
         }
       }
