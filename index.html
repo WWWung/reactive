@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <script type="module">
-        import { reactive, toRaw } from "./reactive.js"
-        import { effect } from "./effect.js"
-        import { ref } from "./ref.js"
-        const a = {
-        b: ref(0)
-        }
-
-        const c = ref(a)
-        console.log(c.value.b)
+      import { reactive, toRaw } from "./reactive.js";
+      import { effect } from "./effect.js";
+      import { ref } from "./ref.js";
+      import { computed } from "./computed.js";
+      const value = reactive({});
+      const cValue = computed(() => value.foo);
+      let dummy;
+      effect(() => {
+        dummy = cValue.value;
+      });
+      // expect(dummy).toBe(undefined);
+      console.log(dummy)
+      value.foo = 1;
+      console.log(dummy)
     </script>
-</body>
+  </body>
 </html>
